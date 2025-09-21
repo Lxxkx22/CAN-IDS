@@ -1,0 +1,74 @@
+Timestamp:          0.000000        ID: 0316    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.000224        ID: 0329    000    DLC: 8    d7 a7 7f 8c 11 2f 00 10
+Timestamp:          0.000462        ID: 0080    000    DLC: 8    00 17 ea 0a 20 1a 20 43
+Timestamp:          0.000704        ID: 0081    000    DLC: 8    7f 84 60 00 00 00 00 53
+Timestamp:          0.000878        ID: 0120    000    DLC: 4    00 00 00 00
+Timestamp:          0.001000        ID: 0999ATK    000    DLC: 8    AA BB CC DD EE FF 00 11
+Timestamp:          0.001115        ID: 0153    000    DLC: 8    00 80 10 ff 00 ff 40 ce
+Timestamp:          0.001366        ID: 018f    000    DLC: 8    00 29 20 00 00 45 00 00
+Timestamp:          0.001600        ID: 0220    000    DLC: 8    ec 03 02 04 0c 00 35 10
+Timestamp:          0.001684        ID: 0153    100    DLC: 0
+Timestamp:          0.001928        ID: 0153    000    DLC: 8    00 80 10 ff 00 ff 40 ce
+Timestamp:          0.002167        ID: 0260    000    DLC: 8    05 20 00 30 ff 93 5f 35
+Timestamp:          0.002402        ID: 02a0    000    DLC: 8    62 00 60 9d db 0c ba 02
+Timestamp:          0.002638        ID: 0370    000    DLC: 8    ff 20 00 80 ff 00 00 ec
+Timestamp:          0.002882        ID: 0382    000    DLC: 8    40 fe 0f 00 00 00 00 08
+Timestamp:          0.003123        ID: 043f    000    DLC: 8    10 50 60 ff 4b 98 09 00
+Timestamp:          0.003370        ID: 0440    000    DLC: 8    ff f0 00 00 ff a0 09 00
+Timestamp:          0.003617        ID: 0517    000    DLC: 8    00 00 00 00 00 00 00 00
+Timestamp:          0.003852        ID: 0545    000    DLC: 8    d8 10 00 8c 32 00 32 00
+Timestamp:          0.004095        ID: 059b    000    DLC: 8    00 00 00 00 00 00 00 c4
+Timestamp:          0.005486        ID: 02b0    000    DLC: 5    15 00 00 07 30
+Timestamp:          0.005713        ID: 0165    000    DLC: 8    0f e8 7f 00 00 00 00 98
+Timestamp:          0.005957        ID: 04b1    000    DLC: 8    00 01 00 00 00 00 00 01
+Timestamp:          0.006500        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.008500        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.010500        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.012500        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.026500        ID: 0316ATK    000    DLC: 4    05 20 ea 0a
+Timestamp:          0.036500        ID: 0316ATK    000    DLC: 8    99 20 ea 0a 20 1a 00 7f
+Timestamp:          0.006204        ID: 0164    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.009778        ID: 04f0    000    DLC: 8    00 00 e6 00 00 ce d2 04
+Timestamp:          0.009958        ID: 0316    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.010193        ID: 0329    000    DLC: 8    d7 a7 7f 8c 11 2f 00 10
+Timestamp:          0.010429        ID: 0080    000    DLC: 8    00 17 ea 0a 20 1a 20 34
+Timestamp:          0.010669        ID: 0081    000    DLC: 8    7f 84 60 00 00 00 00 44
+Timestamp:          0.010908        ID: 0153    000    DLC: 8    00 80 10 ff 00 ff 50 de
+Timestamp:          0.011150        ID: 018f    000    DLC: 8    00 29 20 00 00 45 00 00
+Timestamp:          0.011398        ID: 01f1    000    DLC: 8    00 00 00 00 00 00 00 00
+Timestamp:          0.011644        ID: 0220    000    DLC: 8    ed 03 06 04 0c 00 3a 10
+Timestamp:          0.011909        ID: 0260    000    DLC: 8    05 20 00 30 ff 93 5f 08
+Timestamp:          0.012119        ID: 02a0    000    DLC: 8    02 00 60 9d db 0c ba 02
+Timestamp:          0.012204        ID: 0164    100    DLC: 0
+Timestamp:          0.012458        ID: 0164    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.012700        ID: 0370    000    DLC: 8    ff 20 00 80 ff 00 00 a0
+Timestamp:          0.012942        ID: 043f    000    DLC: 8    10 50 60 ff 4b 9c 09 00
+Timestamp:          0.013188        ID: 0440    000    DLC: 8    ff 00 00 00 ff a0 09 00
+Timestamp:          0.013438        ID: 0510    000    DLC: 8    00 00 00 00 00 00 00 00
+Timestamp:          0.013670        ID: 0545    000    DLC: 8    d8 10 00 8c 32 00 32 00
+Timestamp:          0.015432        ID: 02b0    000    DLC: 5    16 00 00 07 11
+Timestamp:          0.015665        ID: 0165    000    DLC: 8    0f e8 7f 00 00 00 01 99
+Timestamp:          0.015910        ID: 04b0    000    DLC: 8    00 00 00 00 00 00 00 00
+Timestamp:          0.016156        ID: 0164    000    DLC: 8    00 08 00 00 00 00 02 0a
+Timestamp:          0.016897        ID: 0350    000    DLC: 8    05 20 24 79 7b 00 00 03
+Timestamp:          0.019768        ID: 04f2    000    DLC: 8    00 00 a0 38 00 00 00 f3
+Timestamp:          0.019950        ID: 0370    000    DLC: 8    ff 20 00 80 ff 00 00 64
+Timestamp:          0.050000        ID: 0080ATK    000    DLC: 8    00 17 ea 0a 20 1a 20 43
+Timestamp:          0.055000        ID: 0153ATK    000    DLC: 8    FF 80 10 ff 00 ff 40 ce
+Timestamp:          0.056000        ID: 0153ATK    000    DLC: 8    00 FF 10 ff 00 ff 40 ce
+Timestamp:          0.057000        ID: 0153ATK    000    DLC: 8    00 80 FF ff 00 ff 40 ce
+Timestamp:          0.060000        ID: 0164ATK    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.061000        ID: 0164ATK    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.062000        ID: 0164ATK    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.063000        ID: 0164ATK    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.064000        ID: 0164ATK    000    DLC: 8    00 08 00 00 00 00 01 09
+Timestamp:          0.070000        ID: 0220ATK    000    DLC: 2    ec 03
+Timestamp:          0.075000        ID: 02a0ATK    000    DLC: 8    62 00 60 9d db 0c ba FF
+Timestamp:          0.076000        ID: 0329ATK    000    DLC: 8    FF FF FF FF FF FF FF FF
+Timestamp:          0.077000        ID: 0080ATK    000    DLC: 4    00 17 ea 0a
+Timestamp:          0.078000        ID: 0220ATK    000    DLC: 8    FF FF FF FF FF FF FF FF
+Timestamp:          0.079000        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.080000        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.081000        ID: 0316ATK    000    DLC: 8    05 20 ea 0a 20 1a 00 7f
+Timestamp:          0.020190        ID: 043f    000    DLC: 8    10 50 60 ff 4b 9c 09 00
+Timestamp:          0.020434        ID: 0440    000    DLC: 8    ff 50 00 00 ff 9c 09 00

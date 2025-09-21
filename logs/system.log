@@ -1,0 +1,142 @@
+2025-06-20 10:14:57 - __main__ - INFO - Logging initialized: level=INFO, output_dir=logs
+2025-06-20 10:14:57 - __main__ - INFO - ==================================================
+2025-06-20 10:14:57 - __main__ - INFO - CAN Bus Intrusion Detection System Starting
+2025-06-20 10:14:57 - __main__ - INFO - ==================================================
+2025-06-20 10:14:57 - __main__ - INFO - Mode: auto
+2025-06-20 10:14:57 - __main__ - INFO - Input: data/mixed_traffic_with_attacks.txt (file)
+2025-06-20 10:14:57 - __main__ - INFO - Config: config/config.json
+2025-06-20 10:14:57 - __main__ - INFO - Output: logs
+2025-06-20 10:14:57 - __main__ - INFO - Loading configuration...
+2025-06-20 10:14:57 - config_loader - INFO - Configuration loaded from config/config.json
+2025-06-20 10:14:57 - config_loader - WARNING - Configuration validation found 2 issues:
+2025-06-20 10:14:57 - config_loader - WARNING -   - Invalid CAN ID format: _template
+2025-06-20 10:14:57 - config_loader - WARNING -   - baseline_update_interval_sec should be less than initial_learning_window_sec
+2025-06-20 10:14:57 - config_loader - INFO - Configuration validation completed
+2025-06-20 10:14:57 - __main__ - INFO - Initializing state manager...
+2025-06-20 10:14:57 - detection.state_manager - INFO - StateManager initialized: max_ids=5000, cleanup_interval=300s
+2025-06-20 10:14:57 - __main__ - INFO - Initializing alert manager...
+2025-06-20 10:14:57 - alerting.alert_manager - INFO - AlertManager initialized with output directory: logs
+2025-06-20 10:14:57 - __main__ - INFO - Initializing baseline engine...
+2025-06-20 10:14:57 - learning.baseline_engine - INFO - BaselineEngine initialized: learning_duration=10s, min_samples=20
+2025-06-20 10:14:57 - __main__ - INFO - Initializing detectors...
+2025-06-20 10:14:57 - detection.tamper_detector - INFO - TamperDetector initialized
+2025-06-20 10:14:57 - detection.replay_detector - INFO - Enhanced ReplayDetector initialized with periodicity awareness
+2025-06-20 10:14:57 - detection.replay_detector - INFO - Enhanced ReplayDetector initialized with 36 whitelisted periodic IDs from Attack_free_dataset.txt analysis
+2025-06-20 10:14:57 - __main__ - INFO - Initializing data source...
+2025-06-20 10:14:57 - __main__ - INFO - All components initialized successfully
+2025-06-20 10:14:57 - __main__ - INFO - Starting learning phase: duration=10s, min_samples=20
+2025-06-20 10:14:57 - learning.baseline_engine - INFO - Learning phase started
+2025-06-20 10:14:57 - __main__ - INFO - Learning progress: 0.7% (10000 frames)
+2025-06-20 10:14:57 - __main__ - INFO - Learning progress: 1.6% (20000 frames)
+2025-06-20 10:14:57 - __main__ - INFO - Learning progress: 2.5% (30000 frames)
+2025-06-20 10:14:57 - __main__ - INFO - Learning progress: 3.4% (40000 frames)
+2025-06-20 10:14:57 - __main__ - INFO - Learning progress: 4.3% (50000 frames)
+2025-06-20 10:14:57 - __main__ - INFO - Learning progress: 5.2% (60000 frames)
+2025-06-20 10:14:58 - __main__ - INFO - Learning progress: 6.2% (70000 frames)
+2025-06-20 10:14:58 - __main__ - INFO - Learning progress: 7.1% (80000 frames)
+2025-06-20 10:14:58 - __main__ - INFO - Learning progress: 8.0% (90000 frames)
+2025-06-20 10:14:58 - __main__ - INFO - Learning progress: 9.0% (100000 frames)
+2025-06-20 10:14:58 - __main__ - INFO - Finalizing baselines after 100800 frames...
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Finalizing baselines...
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0316 with 4953 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0329 with 4443 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0080 with 3780 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0081 with 4380 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0120 with 219 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0153 with 5553 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x018F with 4380 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0220 with 5488 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0260 with 4380 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x02A0 with 4443 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0370 with 4380 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0382 with 2190 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x043F with 4380 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0440 with 4379 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0517 with 219 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0545 with 4379 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x059B with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x02B0 with 4379 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0165 with 4379 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x04B1 with 3152 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0164 with 5657 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x04F0 with 2190 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x01F1 with 3152 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0510 with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x04B0 with 3151 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0350 with 2189 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x04F2 with 2189 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x05A0 with 988 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x05F0 with 219 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x02C0 with 1384 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x05A2 with 988 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0110 with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0587 with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0050 with 219 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0999 with 64 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x00A0 with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x00A1 with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0018 with 219 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x04F1 with 438 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0690 with 437 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x05E4 with 437 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x051A with 219 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0034 with 44 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0042 with 44 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0043 with 44 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Completed baseline learning for ID 0x0044 with 44 samples
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - 
+Learning Summary:
+- Duration: 1.00 seconds
+- IDs learned: 46
+- Total frames: 100800
+- Average frames per ID: 2191.3
+        
+2025-06-20 10:14:58 - learning.baseline_engine - INFO - Baseline learning completed
+2025-06-20 10:14:58 - __main__ - INFO - Learning completed: {'learning_status': 'completed', 'elapsed_time': 1.002410650253296, 'total_duration': 10, 'progress_ratio': 0.10024106502532959, 'learned_id_count': 46, 'total_frame_count': 100800, 'ids': {'0x0316': {'frame_count': 4953, 'first_seen': 0.0, 'last_seen': 43.790331, 'dlcs': [4, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x0329': {'frame_count': 4443, 'first_seen': 0.000224, 'last_seen': 43.791742, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0080': {'frame_count': 3780, 'first_seen': 0.000462, 'last_seen': 43.790562, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0081': {'frame_count': 4380, 'first_seen': 0.000704, 'last_seen': 43.790803, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0120': {'frame_count': 219, 'first_seen': 0.000878, 'last_seen': 43.600988, 'dlcs': [4], 'payload_samples': 0, 'byte_positions': {}}, '0x0153': {'frame_count': 5553, 'first_seen': 0.001115, 'last_seen': 43.789606, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x018F': {'frame_count': 4380, 'first_seen': 0.001366, 'last_seen': 43.791038, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0220': {'frame_count': 5488, 'first_seen': 0.0016, 'last_seen': 43.790099, 'dlcs': [0, 2, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x0260': {'frame_count': 4380, 'first_seen': 0.002167, 'last_seen': 43.791275, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x02A0': {'frame_count': 4443, 'first_seen': 0.002402, 'last_seen': 43.791511, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0370': {'frame_count': 4380, 'first_seen': 0.002638, 'last_seen': 43.791988, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0382': {'frame_count': 2190, 'first_seen': 0.002882, 'last_seen': 43.782155, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x043F': {'frame_count': 4380, 'first_seen': 0.003123, 'last_seen': 43.792227, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0440': {'frame_count': 4379, 'first_seen': 0.00337, 'last_seen': 43.782636, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0517': {'frame_count': 219, 'first_seen': 0.003617, 'last_seen': 43.603392, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0545': {'frame_count': 4379, 'first_seen': 0.003852, 'last_seen': 43.783219, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x059B': {'frame_count': 438, 'first_seen': 0.004095, 'last_seen': 43.703694, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x02B0': {'frame_count': 4379, 'first_seen': 0.005486, 'last_seen': 43.786478, 'dlcs': [5], 'payload_samples': 0, 'byte_positions': {}}, '0x0165': {'frame_count': 4379, 'first_seen': 0.005713, 'last_seen': 43.786674, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x04B1': {'frame_count': 3152, 'first_seen': 0.005957, 'last_seen': 43.78445, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x0164': {'frame_count': 5657, 'first_seen': 0.006204, 'last_seen': 43.784678, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x04F0': {'frame_count': 2190, 'first_seen': 0.009778, 'last_seen': 43.788864, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x01F1': {'frame_count': 3152, 'first_seen': 0.011398, 'last_seen': 43.789863, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x0510': {'frame_count': 438, 'first_seen': 0.013438, 'last_seen': 43.713335, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x04B0': {'frame_count': 3151, 'first_seen': 0.01591, 'last_seen': 43.782984, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x0350': {'frame_count': 2189, 'first_seen': 0.016897, 'last_seen': 43.78167, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x04F2': {'frame_count': 2189, 'first_seen': 0.019768, 'last_seen': 43.777424, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x05A0': {'frame_count': 988, 'first_seen': 0.033657, 'last_seen': 43.708702, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x05F0': {'frame_count': 219, 'first_seen': 0.036317, 'last_seen': 43.628948, 'dlcs': [2], 'payload_samples': 0, 'byte_positions': {}}, '0x02C0': {'frame_count': 1384, 'first_seen': 0.037148, 'last_seen': 43.770567, 'dlcs': [0, 8], 'payload_samples': 0, 'byte_positions': {}}, '0x05A2': {'frame_count': 988, 'first_seen': 0.039019, 'last_seen': 43.718886, 'dlcs': [0, 4], 'payload_samples': 0, 'byte_positions': {}}, '0x0110': {'frame_count': 438, 'first_seen': 0.050856, 'last_seen': 43.751244, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0587': {'frame_count': 438, 'first_seen': 0.059412, 'last_seen': 43.764014, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0050': {'frame_count': 219, 'first_seen': 0.060608, 'last_seen': 43.660706, 'dlcs': [4], 'payload_samples': 0, 'byte_positions': {}}, '0x0999': {'frame_count': 64, 'first_seen': 0.063494, 'last_seen': 43.252389, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x00A0': {'frame_count': 438, 'first_seen': 0.066195, 'last_seen': 43.763523, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x00A1': {'frame_count': 438, 'first_seen': 0.066434, 'last_seen': 43.763769, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0018': {'frame_count': 219, 'first_seen': 0.070676, 'last_seen': 43.670741, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x04F1': {'frame_count': 438, 'first_seen': 0.093448, 'last_seen': 43.789102, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0690': {'frame_count': 437, 'first_seen': 0.09371, 'last_seen': 43.689514, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x05E4': {'frame_count': 437, 'first_seen': 0.095861, 'last_seen': 43.696446, 'dlcs': [3], 'payload_samples': 0, 'byte_positions': {}}, '0x051A': {'frame_count': 219, 'first_seen': 0.193121, 'last_seen': 43.789365, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0034': {'frame_count': 44, 'first_seen': 0.300662, 'last_seen': 43.30087, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0042': {'frame_count': 44, 'first_seen': 0.537133, 'last_seen': 43.540745, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0043': {'frame_count': 44, 'first_seen': 0.537386, 'last_seen': 43.541008, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}, '0x0044': {'frame_count': 44, 'first_seen': 0.53763, 'last_seen': 43.541248, 'dlcs': [8], 'payload_samples': 0, 'byte_positions': {}}}}
+2025-06-20 10:14:58 - config_loader - INFO - Configuration saved to config/config.json
+2025-06-20 10:14:58 - __main__ - INFO - Configuration saved after learning completion
+2025-06-20 10:14:58 - __main__ - INFO - Starting detection phase...
+2025-06-20 10:15:04 - __main__ - INFO - ==================================================
+2025-06-20 10:15:04 - __main__ - INFO - FINAL STATISTICS
+2025-06-20 10:15:04 - __main__ - INFO - ==================================================
+2025-06-20 10:15:04 - __main__ - INFO - Total runtime: 6.26s
+2025-06-20 10:15:04 - __main__ - INFO - Total frames processed: 100,800
+2025-06-20 10:15:04 - __main__ - INFO - Average processing rate: 16093.7 fps
+2025-06-20 10:15:04 - __main__ - INFO - Total alerts generated: 6,455
+2025-06-20 10:15:04 - __main__ - INFO - Alert rate: 6.404% of frames
+2025-06-20 10:15:04 - __main__ - INFO - 
+Detector Performance:
+2025-06-20 10:15:04 - __main__ - INFO -   Drop: 3144 alerts, 100800 detections
+2025-06-20 10:15:04 - __main__ - INFO -   Tamper: 8290 alerts, 100800 detections
+2025-06-20 10:15:04 - __main__ - INFO -   Replay: 1476 alerts, 134883 detections
+2025-06-20 10:15:04 - __main__ - INFO -   General: 0 alerts, 201600 detections
+2025-06-20 10:15:04 - __main__ - INFO - 
+State Manager: 46 active IDs, 100800 frames tracked
+2025-06-20 10:15:04 - __main__ - INFO - Alert Manager: 0 throttled alerts
+2025-06-20 10:15:04 - __main__ - INFO - System Performance and Resource Consumption Assessment Report
+2025-06-20 10:15:04 - __main__ - INFO - Initialization Time: 1.002 seconds
+2025-06-20 10:15:04 - __main__ - INFO - Detection Runtime: 6.263 seconds
+2025-06-20 10:15:04 - __main__ - INFO - Processing Throughput: 16093.66 frames/sec
+2025-06-20 10:15:04 - __main__ - INFO - Average Latency: 0.056 ms
+2025-06-20 10:15:04 - __main__ - INFO - Median Latency: 0.000 ms
+2025-06-20 10:15:04 - __main__ - INFO - 95th Percentile: 0.177 ms
+2025-06-20 10:15:04 - __main__ - INFO - 99th Percentile: 1.023 ms
+2025-06-20 10:15:04 - __main__ - INFO - Maximum Latency: 10.989 ms
+2025-06-20 10:15:04 - __main__ - INFO - Baseline Memory Usage: 53.76 MB
+2025-06-20 10:15:04 - __main__ - INFO - Average Memory Usage: 78.77 MB
+2025-06-20 10:15:04 - __main__ - INFO - Peak Memory Usage: 92.98 MB
+2025-06-20 10:15:04 - __main__ - INFO - Memory Growth: 39.23 MB
+2025-06-20 10:15:04 - __main__ - INFO - Average CPU Usage: 85.28%
+2025-06-20 10:15:04 - __main__ - INFO - Peak CPU Usage: 99.70%
+2025-06-20 10:15:04 - __main__ - INFO - Minimum CPU Usage: 71.70%
+2025-06-20 10:15:04 - __main__ - INFO - Total Frames Processed: 100,800
+2025-06-20 10:15:04 - __main__ - INFO - Total Alerts Generated: 6,455
+2025-06-20 10:15:04 - __main__ - INFO - Alert Rate: 6.404%
+2025-06-20 10:15:04 - __main__ - INFO - 
+2025-06-20 10:15:04 - __main__ - INFO - ================================================================================
+2025-06-20 10:15:04 - __main__ - INFO - Performance Assessment Report End
+2025-06-20 10:15:04 - __main__ - INFO - ================================================================================
+2025-06-20 10:15:04 - __main__ - INFO - System shutdown completed successfully
+2025-06-20 10:15:04 - __main__ - INFO - Cleaning up system resources...
+2025-06-20 10:15:05 - alerting.alert_manager - INFO - AlertManager closed successfully
+2025-06-20 10:15:05 - __main__ - INFO - Resource cleanup completed

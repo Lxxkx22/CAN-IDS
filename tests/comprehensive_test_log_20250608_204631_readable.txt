@@ -1,0 +1,1763 @@
+IDS4.0 全面测试报告
+================================================================================
+测试开始时间: 2025-06-08 20:46:31
+测试结束时间: 2025-06-08 20:47:07
+总耗时: 35.75 秒
+总测试方法数: 171
+通过: 170
+失败: 1
+错误: 0
+跳过: 0
+成功率: 99.4%
+
+================================================================================
+详细测试结果
+================================================================================
+
+文件: test_alert_manager.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestAlertManager
+    方法: test_alert_throttling_cooldown
+    描述: 验证AlertManager的全局冷却时间机制能够正确限制 在冷却期内的所有告警，无论CAN ID是否相同。
+    预期结果: 1. 发送第一个告警应成功处理; 2. 在100ms后发送第二个告警(小于250ms冷却时间); 3. 第二个告警应被限流，不被处理; 4. 总告警数(total_alerts)应为1; 5. 被限流的告警数(throttled_alerts)应大于0; 6. 冷却机制应正确工作
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.005秒
+    时间: 2025-06-08T20:46:32.157237
+
+  测试 #2
+    类名: TestAlertManager
+    方法: test_alert_throttling_per_id
+    描述: 验证AlertManager的限流机制能够正确限制同一CAN ID在短时间内 产生的告警数量，防止告警洪水攻击。
+    预期结果: 1. 发送5个相同ID的告警，间隔0.1秒; 2. 由于冷却时间250ms的限制，只有前2个告警应被处理; 3. 总告警数(total_alerts)应为2; 4. 被限流的告警数(throttled_alerts)应大于0; 5. 限流机制应有效防止告警泛滥
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:32.160238
+
+  测试 #3
+    类名: TestAlertManager
+    方法: test_clear_statistics
+    描述: 验证AlertManager能够正确清除所有统计信息和历史记录， 将系统重置到初始状态。
+    预期结果: 1. 发送一个测试告警后，统计信息应存在; 2. 手动清除统计信息后:; - 总告警数(total_alerts)应重置为0; - 按类型统计字典应为空; - 最近告警列表应为空; - 最后告警时间戳应重置为0.0; 3. 系统应完全重置到初始状态
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.162262
+
+  测试 #4
+    类名: TestAlertManager
+    方法: test_file_output_content
+    描述: 验证AlertManager能够正确将告警信息写入到日志文件和JSON文件中， 确保文件内容的完整性和正确性。
+    预期结果: 1. 发送测试告警后，alerts.log文件应存在; 2. alerts.json文件应存在; 3. 两个文件的大小应大于等于0(表示有内容写入); 4. 文件缓冲区应正确刷新; 5. 文件内容应包含告警的相关信息; 6. 文件输出功能应正常工作
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:32.165244
+
+  测试 #5
+    类名: TestAlertManager
+    方法: test_get_statistics
+    描述: 验证AlertManager能够正确收集和返回各种告警统计信息， 包括总数、按类型分组、按严重程度分组等。
+    预期结果: 1. 发送3个不同的告警，间隔大于冷却时间; 2. 总告警数(total_alerts)应为3; 3. 按类型统计: test1类型应为2个，test2类型应为1个; 4. 按严重程度统计: high应为1个，medium应为1个，low应为1个; 5. 统计信息应准确反映所有已处理的告警
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:32.168239
+
+  测试 #6
+    类名: TestAlertManager
+    方法: test_initialization
+    描述: 验证AlertManager实例能够正确初始化，包括基本属性设置、统计信息初始化、 输出目录创建和输出配置设置。
+    预期结果: 1. output_dir属性应等于传入的临时目录路径; 2. config_manager属性应等于传入的模拟配置管理器; 3. alert_stats['total_alerts']应初始化为0; 4. alert_stats['alerts_by_type']应为defaultdict类型; 5. 输出目录应成功创建并存在; 6. 控制台输出配置应启用(enabled=True); 7. 文件输出配置应启用(enabled=True); 8. JSON文件输出配置应启用(enabled=True)
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.170238
+
+  测试 #7
+    类名: TestAlertManager
+    方法: test_invalid_alert_handling
+    描述: 验证AlertManager能够优雅地处理无效的告警数据， 不会导致系统崩溃或异常。
+    预期结果: 1. 发送无效的告警数据(字符串类型)不应导致异常; 2. 系统应优雅地忽略无效告警; 3. 统计信息不应因无效告警而更新; 4. 总告警数(total_alerts)应保持为0; 5. 系统应具有良好的错误容错能力
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.172238
+
+  测试 #8
+    类名: TestAlertManager
+    方法: test_output_configuration
+    描述: 验证AlertManager能够正确处理不同的输出配置选项， 包括禁用控制台输出和更改输出格式。
+    预期结果: 1. 禁用控制台输出后，系统应正常工作; 2. 更改文件输出格式为JSON后，系统应正常工作; 3. 发送测试告警不应导致任何异常; 4. 配置更改应不影响告警处理的核心功能; 5. 系统应具有良好的配置灵活性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.174254
+
+  测试 #9
+    类名: TestAlertManager
+    方法: test_output_files_creation
+    描述: 验证AlertManager能够正确创建告警日志文件和JSON文件， 并确保文件句柄正确初始化。
+    预期结果: 1. alerts.log文件应在输出目录中成功创建; 2. alerts.json文件应在输出目录中成功创建; 3. _alert_file文件句柄应不为None; 4. _json_file文件句柄应不为None; 5. 两个文件都应该可以正常写入
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.175853
+
+  测试 #10
+    类名: TestAlertManager
+    方法: test_report_alert_with_alert_object
+    描述: 验证AlertManager能够正确处理Alert对象类型的告警， 包括统计信息更新和告警历史记录。
+    预期结果: 1. 总告警数(total_alerts)应增加到1; 2. 按类型统计(alerts_by_type['test_alert'])应为1; 3. 按ID统计(alerts_by_id['0x123'])应为1; 4. 按严重程度统计(alerts_by_severity['high'])应为1; 5. 最近告警列表(recent_alerts)长度应为1; 6. 最近告警列表中的第一个元素应等于报告的告警对象
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:32.178911
+
+  测试 #11
+    类名: TestAlertManager
+    方法: test_report_alert_with_dict
+    描述: 验证AlertManager能够正确处理字典类型的告警数据， 并正确更新各项统计信息。
+    预期结果: 1. 总告警数(total_alerts)应增加到1; 2. 按类型统计(alerts_by_type['dict_alert'])应为1; 3. 按ID统计(alerts_by_id['0x456'])应为1; 4. 按严重程度统计(alerts_by_severity['medium'])应为1; 5. 字典格式的告警应被正确解析和处理
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.181382
+
+
+文件: test_base_detector.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestAlert
+    方法: test_alert_creation
+    描述: 测试Alert创建
+    预期结果: 告警功能应正常工作
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.688417
+
+  测试 #2
+    类名: TestAlert
+    方法: test_alert_str
+    描述: 测试Alert对象的字符串表示功能
+    预期结果: 1. 字符串应包含严重程度信息（CRITICAL）; 2. 字符串应包含告警类型（test_alert）; 3. 字符串应包含CAN ID（123）; 4. 字符串应包含详细信息（Test details）
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.690417
+
+  测试 #3
+    类名: TestAlert
+    方法: test_alert_to_dict
+    描述: 测试Alert对象转换为字典格式功能
+    预期结果: 1. 字典应包含alert_type、can_id、details等基本字段; 2. timestamp字段应保持原始值; 3. severity字段应转换为小写字符串; 4.应自动生成唯一的alert_id字段
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:32.691418
+
+  测试 #4
+    类名: TestBaseDetector
+    方法: test_config_cache_cleanup
+    描述: 验证BaseDetector能够正确清理过期的配置缓存， 确保内存使用合理，避免缓存数据过度积累。
+    预期结果: 1. 配置缓存清理方法应成功执行; 2. 过期的缓存条目应被正确清除; 3. 有效的缓存条目应保留; 4. 清理后内存使用应减少; 5. 清理过程不应影响正常的配置访问; 6. 系统性能应得到优化
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:32.694930
+
+  测试 #5
+    类名: TestBaseDetector
+    方法: test_config_version_change
+    描述: 验证BaseDetector能够正确检测配置版本的变化， 并在配置更新时清理旧的缓存，重新加载新配置。
+    预期结果: 1. 配置版本变化检测应正常工作; 2. 检测到版本变化时，应清理旧的配置缓存; 3. 新配置应正确加载到缓存中; 4. 配置更新过程不应影响检测器正常运行; 5. 版本变化响应机制应及时有效; 6. 系统应能适应动态配置更新
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:32.695929
+
+  测试 #6
+    类名: TestBaseDetector
+    方法: test_create_alert
+    描述: 验证BaseDetector基类的_create_alert方法能够正确创建Alert对象， 并自动设置检测上下文信息，包括检测器名称和检测时间。
+    预期结果: 1. _create_alert方法应成功创建Alert对象; 2. 创建的Alert对象类型应为Alert类实例; 3. Alert的alert_type应等于传入的"test_alert"; 4. Alert的can_id应等于帧的CAN ID; 5. Alert的details应等于传入的详细信息; 6. Alert的severity应等于传入的严重程度; 7. Alert的detection_context应包含检测器名称; 8. Alert的detection_context应包含检测时间信息
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:32.695929
+
+  测试 #7
+    类名: TestBaseDetector
+    方法: test_detect_method
+    描述: 验证具体检测器实现的detect方法能够正确分析CAN帧数据， 并在检测到异常时生成相应的告警对象。
+    预期结果: 1. detect方法应成功执行，返回告警列表; 2. 当CAN ID为"alert_test"时，应生成一个告警; 3. 生成的告警类型应为"test_alert"; 4. 告警的严重程度应为AlertSeverity.HIGH; 5. 告警应包含正确的CAN帧信息; 6. 当CAN ID不匹配时，应返回空的告警列表; 7. 检测逻辑应正确执行，不抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:32.696930
+
+  测试 #8
+    类名: TestBaseDetector
+    方法: test_detector_initialization
+    描述: 测试BaseDetector检测器初始化功能
+    预期结果: 1. config_manager属性应正确设置; 2. _config_cache应初始化为空字典; 3. detector_name应设置为类名; 4. 检测器应处于可用状态
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:32.698930
+
+  测试 #9
+    类名: TestBaseDetector
+    方法: test_get_cached_config
+    描述: 验证BaseDetector能够正确缓存和获取配置信息， 提高配置访问性能，避免重复的配置读取操作。
+    预期结果: 1. get_cached_config方法应成功执行; 2. 首次调用应从配置管理器读取配置; 3. 后续调用应返回缓存的配置，提高性能; 4. 缓存的配置内容应与原始配置一致; 5. 配置缓存机制应正常工作; 6. 不应因缓存导致配置信息错误
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:32.699931
+
+  测试 #10
+    类名: TestBaseDetector
+    方法: test_get_config_value
+    描述: 验证BaseDetector能够正确获取指定的配置值， 包括处理默认值、类型转换和异常情况。
+    预期结果: 1. get_config_value方法应成功执行; 2. 存在的配置项应返回正确的值; 3. 不存在的配置项应返回指定的默认值; 4. 配置值类型应正确转换; 5. 异常情况应得到妥善处理; 6. 配置访问应高效可靠
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:32.699931
+
+  测试 #11
+    类名: TestBaseDetector
+    方法: test_is_detection_enabled
+    描述: 验证BaseDetector能够正确判断检测功能是否启用， 通过配置管理器获取相应的配置值并返回正确的布尔结果。
+    预期结果: 1. is_detection_enabled方法应成功执行; 2. 当配置中检测功能启用时，应返回True; 3. 当配置中检测功能禁用时，应返回False; 4. 方法应正确调用配置管理器获取配置值; 5. 返回值应为布尔类型; 6. 配置读取过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:32.700928
+
+  测试 #12
+    类名: TestBaseDetector
+    方法: test_memory_pressure_mode
+    描述: 验证BaseDetector在系统内存压力较大时能够正确调整行为， 包括减少缓存使用、优化内存分配等内存管理策略。
+    预期结果: 1. 内存压力模式应正确启用; 2. 检测器应减少内存使用，清理非必要缓存; 3. 核心检测功能应继续正常工作; 4. 内存使用应得到有效控制; 5. 系统稳定性应得到保障; 6. 性能降级应在可接受范围内
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:32.700928
+
+  测试 #13
+    类名: TestBaseDetector
+    方法: test_post_detect
+    描述: 验证BaseDetector的post_detect方法能够正确执行检测后的清理工作， 包括统计信息更新、资源清理等后处理步骤。
+    预期结果: 1. post_detect方法应成功执行，不抛出异常; 2. 方法应正确接收alerts和detection_time参数; 3. 统计信息应正确更新(如detection_count); 4. 如果有告警，alert_count应相应增加; 5. last_detection_time应更新为最新的检测时间; 6. 后处理逻辑应正确执行，不影响系统稳定性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:32.701929
+
+  测试 #14
+    类名: TestBaseDetector
+    方法: test_pre_detect
+    描述: 验证BaseDetector的pre_detect方法能够正确执行检测前的准备工作， 包括参数验证、状态检查等预处理步骤。
+    预期结果: 1. pre_detect方法应成功执行，不抛出异常; 2. 方法应正确接收frame、id_state和config_proxy参数; 3. 预处理逻辑应正确执行; 4. 方法执行后系统状态应保持正常; 5. 为后续的detect方法调用做好准备; 6. 不应影响检测器的正常功能
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:32.701929
+
+
+文件: test_baseline_engine.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestBaselineEngine
+    方法: test_complete_learning
+    描述: 验证BaselineEngine能够正确完成学习过程，包括生成基线数据、 更新学习状态和返回完整的基线信息。
+    预期结果: 1. is_learning_active应设置为False; 2. learning_completed应设置为True; 3. 应返回包含基线数据的字典; 4. 基线数据应包含"0x123"的ID信息; 5. ID基线应包含frame_count、first_seen、last_seen等字段; 6. 基线数据应完整准确，可用于后续检测; 7. 学习状态应正确转换为完成状态
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.006秒
+    时间: 2025-06-08T20:46:33.352216
+
+  测试 #2
+    类名: TestBaselineEngine
+    方法: test_get_baseline_for_id
+    描述: 验证BaselineEngine能够正确返回指定CAN ID的基线数据， 包括存在的ID和不存在的ID的处理。
+    预期结果: 1. 存在的ID "0x123"应返回非空的基线数据; 2. 存在的ID "0x456"应返回非空的基线数据; 3. 不存在的ID "0x999"应返回None; 4. 返回的基线数据应包含frame_count字段; 5. ID "0x123"的frame_count应为1; 6. ID "0x456"的frame_count应为1; 7. 基线数据应包含正确的DLC信息(8和4)
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:33.353180
+
+  测试 #3
+    类名: TestBaselineEngine
+    方法: test_get_learning_statistics
+    描述: 验证BaselineEngine能够正确生成和返回学习过程的统计信息， 包括学习的ID数量、帧数量、持续时间和状态等。
+    预期结果: 1. 返回的统计信息应为字典类型; 2. 应包含learned_id_count字段，值为2; 3. 应包含total_frame_count字段，值为3; 4. 应包含total_duration字段; 5. 应包含learning_status字段，值为'active'; 6. 统计信息应准确反映当前学习状态; 7. 所有统计数据应与实际处理的数据一致
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:33.353742
+
+  测试 #4
+    类名: TestBaselineEngine
+    方法: test_initialization
+    描述: 验证BaselineEngine能够正确初始化，包括配置管理器设置、学习参数配置、 状态变量初始化和数据结构准备等基本功能。
+    预期结果: 1. config_manager属性应正确设置为传入的配置管理器; 2. learning_duration应从配置中正确读取为30秒; 3. min_samples应从配置中正确读取为100; 4. is_learning_active应初始化为False; 5. learning_completed应初始化为False; 6. learning_start_time应初始化为None; 7. data_per_id应初始化为defaultdict类型; 8. periodicity_data应初始化为defaultdict类型
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:33.353742
+
+  测试 #5
+    类名: TestBaselineEngine
+    方法: test_learning_completion_check
+    描述: 验证BaselineEngine能够正确判断学习阶段是否完成， 包括时间条件和样本数量条件的综合评估。
+    预期结果: 1. 当学习时间超过设定阈值(0.1秒)时，应满足时间条件; 2. 当样本数量达到最小要求(2个)时，应满足样本条件; 3. is_learning_complete()方法应返回True; 4. 学习完成检查应综合考虑时间和样本两个条件; 5. 学习状态判断应准确可靠; 6. 完成条件应符合配置的学习参数
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.151秒
+    时间: 2025-06-08T20:46:33.505051
+
+  测试 #6
+    类名: TestBaselineEngine
+    方法: test_learning_completion_insufficient_samples
+    描述: 验证BaselineEngine在学习时间充足但样本数量不足时， 能够正确判断学习尚未完成。
+    预期结果: 1. 即使学习时间超过要求(2秒 > 30秒配置); 2. 但样本数量只有50个(少于要求的100个); 3. is_learning_complete()方法应返回False; 4. 样本数量条件应作为学习完成的必要条件; 5. 学习状态判断应严格遵循样本数量要求; 6. 不应因时间充足而忽略样本数量条件
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:33.507159
+
+  测试 #7
+    类名: TestBaselineEngine
+    方法: test_learning_completion_insufficient_time
+    描述: 验证BaselineEngine在样本数量充足但学习时间不足时， 能够正确判断学习尚未完成。
+    预期结果: 1. 即使有150个样本(超过最小要求100个); 2. 但学习时间只有10秒(少于要求的30秒); 3. is_learning_complete()方法应返回False; 4. 时间条件应作为学习完成的必要条件; 5. 学习状态判断应严格遵循时间要求; 6. 不应因样本充足而忽略时间条件
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.005秒
+    时间: 2025-06-08T20:46:33.512184
+
+  测试 #8
+    类名: TestBaselineEngine
+    方法: test_multiple_frames_processing
+    描述: 验证BaselineEngine能够正确处理多个不同CAN ID的帧， 包括数据分类、统计更新和状态管理等功能。
+    预期结果: 1. ID 0x123应记录2个时间戳; 2. ID 0x123的frame_count应为2; 3. ID 0x123应记录DLC为8; 4. ID 0x456应记录1个时间戳; 5. ID 0x456的frame_count应为1; 6. ID 0x456应记录DLC为4; 7. data_per_id应包含2个不同的CAN ID; 8. 每个ID的数据应正确分离和统计
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:33.513096
+
+  测试 #9
+    类名: TestBaselineEngine
+    方法: test_payload_entropy_calculation
+    描述: 验证BaselineEngine能够正确分析CAN帧载荷的字节变化模式， 包括记录每个字节位置的不同值和计算载荷变化特征。
+    预期结果: 1. 第8个字节(索引7)应记录3个不同的值(0x08, 0x09, 0x0A); 2. 前7个字节应保持相同，每个位置只有1个唯一值; 3. bytes_at_pos数据结构应正确记录每个位置的字节值; 4. 载荷变化模式应被正确识别和分析; 5. 字节位置统计应准确反映数据变化特征; 6. 载荷熵计算基础数据应正确收集
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:33.513096
+
+  测试 #10
+    类名: TestBaselineEngine
+    方法: test_periodicity_detection
+    描述: 验证BaselineEngine能够正确检测和记录CAN帧的周期性模式， 包括时间戳记录和间隔计算等功能。
+    预期结果: 1. periodicity_data应正确记录"0x123"的时间戳; 2. 应记录20个时间戳，对应20个帧; 3. 时间戳间隔应接近设定的周期(0.1秒); 4. 平均间隔应在0.1秒±0.01秒范围内; 5. 周期性模式应被正确识别和记录; 6. 时间戳序列应保持正确的时间顺序; 7. 周期性数据应为后续分析提供准确基础
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:33.514103
+
+  测试 #11
+    类名: TestBaselineEngine
+    方法: test_process_frame_for_learning
+    描述: 验证BaselineEngine能够正确处理单个CAN帧，包括自动启动学习、 记录帧数据、更新统计信息等核心学习功能。
+    预期结果: 1. 处理帧时应自动启动学习阶段(is_learning_active=True); 2. 帧的时间戳应正确记录到timestamps列表中; 3. 帧的DLC应正确记录到dlcs集合中; 4. frame_count应正确增加到1; 5. first_seen时间戳应正确设置; 6. last_seen时间戳应正确设置; 7. 数据应按CAN ID正确分类存储
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:33.515102
+
+  测试 #12
+    类名: TestBaselineEngine
+    方法: test_reset_learning
+    描述: 验证BaselineEngine能够正确重置所有学习相关的状态和数据， 将系统恢复到初始状态以便重新开始学习。
+    预期结果: 1. is_learning_active应重置为False; 2. learning_completed应重置为False; 3. learning_start_time应重置为None; 4. data_per_id字典应清空，长度为0; 5. periodicity_data字典应清空，长度为0; 6. 所有学习数据应被完全清除; 7. 系统应恢复到可重新开始学习的状态
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:33.515102
+
+  测试 #13
+    类名: TestBaselineEngine
+    方法: test_start_learning
+    描述: 验证BaselineEngine能够正确启动学习阶段，包括设置学习状态标志、 记录学习开始时间等关键操作。
+    预期结果: 1. is_learning_active应设置为True; 2. learning_completed应保持为False; 3. learning_start_time应设置为当前时间戳; 4. 学习开始时间应与当前时间相差不超过1秒; 5. 学习状态应正确转换为活跃状态; 6. 系统应准备好接收和处理学习数据
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:33.515102
+
+
+文件: test_config_manager.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestConfigManager
+    方法: test_add_config_observer
+    描述: 验证 ConfigManager 的观察者模式功能，能够正确添加配置变更观察者。
+    预期结果: 1. 观察者成功添加到观察者列表
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.023739
+
+  测试 #2
+    类名: TestConfigManager
+    方法: test_config_change_notification
+    描述: 验证当配置发生变更时，ConfigManager 能够正确通知所有注册的观察者。
+    预期结果: 1. 观察者的回调方法被正确调用; 2. 回调参数包含正确的变更信息
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.027842
+
+  测试 #3
+    类名: TestConfigManager
+    方法: test_get_all_known_ids
+    描述: 验证 ConfigManager 能够返回所有已知 CAN ID 的集合。
+    预期结果: 1. 返回 set 类型的已知 ID 集合; 2. 集合包含配置文件中的所有 ID; 3. 集合大小正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.004秒
+    时间: 2025-06-08T20:46:34.031480
+
+  测试 #4
+    类名: TestConfigManager
+    方法: test_get_config_version
+    描述: 验证 ConfigManager 的配置版本管理功能，确保版本号正确跟踪配置变更。
+    预期结果: 1. 初始配置版本为 0; 2. 每次配置修改后版本号正确递增; 3. 版本号跟踪准确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.034475
+
+  测试 #5
+    类名: TestConfigManager
+    方法: test_get_global_setting_no_default
+    描述: 验证当请求的配置设置不存在且未提供默认值时，ConfigManager 抛出 ConfigError 异常。
+    预期结果: 1. 抛出 ConfigError 异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.037475
+
+  测试 #6
+    类名: TestConfigManager
+    方法: test_get_global_setting_success
+    描述: 验证 ConfigManager 能够正确获取存在的全局配置设置，包括简单设置和嵌套设置。
+    预期结果: 测试应该通过
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.039474
+
+  测试 #7
+    类名: TestConfigManager
+    方法: test_get_global_setting_with_default
+    描述: 验证当请求的配置设置不存在时，ConfigManager 能够返回指定的默认值。
+    预期结果: 1. 获取不存在节的设置时返回指定的默认值; 2. 获取存在节中不存在键时返回指定的默认值
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.040981
+
+  测试 #8
+    类名: TestConfigManager
+    方法: test_get_id_config_not_found
+    描述: 验证当请求不存在的 CAN ID 配置时的处理行为。
+    预期结果: 1. 获取不存在的 ID 配置时返回 None
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.043388
+
+  测试 #9
+    类名: TestConfigManager
+    方法: test_get_id_config_success
+    描述: 验证 ConfigManager 能够正确获取存在的 CAN ID 的完整配置信息。
+    预期结果: 1. 成功获取 ID 配置字典; 2. 配置包含正确的名称、DLC 和周期信息
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.044388
+
+  测试 #10
+    类名: TestConfigManager
+    方法: test_get_id_setting_success
+    描述: 验证 ConfigManager 能够正确获取特定 CAN ID 的配置设置。
+    预期结果: 1. 成功获取 0x123 的 expected_dlc 值为 8; 2. 成功获取 0x456 的 name 值为 'Vehicle_Speed'
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.046388
+
+  测试 #11
+    类名: TestConfigManager
+    方法: test_get_id_setting_with_default
+    描述: 验证当请求的 ID 配置不存在时，能够使用默认值进行处理。
+    预期结果: 1. 获取不存在 ID 的配置时返回默认值; 2. 获取存在 ID 的不存在键时返回默认值
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.047385
+
+  测试 #12
+    类名: TestConfigManager
+    方法: test_initialization_file_not_found
+    描述: 验证当指定的配置文件不存在时，ConfigManager 能够抛出适当的 ConfigError 异常。
+    预期结果: 1. 抛出 ConfigError 异常; 2. 异常消息包含 "Configuration file not found" 文本
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.049402
+
+  测试 #13
+    类名: TestConfigManager
+    方法: test_initialization_invalid_json
+    描述: 验证当配置文件包含无效的 JSON 格式时，ConfigManager 能够抛出适当的 ConfigError 异常。
+    预期结果: 1. 抛出 ConfigError 异常; 2. 异常消息包含 "Invalid JSON" 文本
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.051385
+
+  测试 #14
+    类名: TestConfigManager
+    方法: test_initialization_success
+    描述: 验证 ConfigManager 能够正确加载有效的配置文件，并初始化所有必要的属性和缓存。
+    预期结果: 1. ConfigManager 实例创建成功; 2. 文件路径属性设置正确; 3. 配置数据包含所有必要的节; 4. 已知ID缓存包含配置文件中的所有ID; 5. 配置版本号初始化为0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.053386
+
+  测试 #15
+    类名: TestConfigManager
+    方法: test_is_known_id
+    描述: 验证 ConfigManager 能够正确识别已知和未知的 CAN ID。
+    预期结果: 1. 已知 ID 返回 True; 2. 未知 ID 返回 False
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.054385
+
+  测试 #16
+    类名: TestConfigManager
+    方法: test_reload_config
+    描述: 验证 ConfigManager 能够重新加载配置文件，丢弃内存中的修改。
+    预期结果: 1. 内存中的配置修改成功; 2. 重新加载后配置恢复为文件中的原始值
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.056386
+
+  测试 #17
+    类名: TestConfigManager
+    方法: test_remove_config_observer
+    描述: 验证 ConfigManager 能够正确移除已添加的配置变更观察者。
+    预期结果: 1. 观察者成功从观察者列表中移除
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.057386
+
+  测试 #18
+    类名: TestConfigManager
+    方法: test_save_config
+    描述: 验证 ConfigManager 能够将修改后的配置正确保存到文件。
+    预期结果: 1. 配置文件保存成功; 2. 保存的配置内容正确; 3. 新的 ConfigManager 实例能够正确加载保存的配置
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.059386
+
+  测试 #19
+    类名: TestConfigManager
+    方法: test_set_global_setting
+    描述: 验证 ConfigManager 能够正确设置全局配置值。
+    预期结果: 1. 全局配置值设置成功; 2. 能够正确获取设置的值
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.060386
+
+  测试 #20
+    类名: TestConfigManager
+    方法: test_set_id_setting
+    描述: 验证 ConfigManager 能够正确设置特定 CAN ID 的配置值。
+    预期结果: 1. ID 特定配置设置成功; 2. 能够正确获取设置的值
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.061386
+
+  测试 #21
+    类名: TestConfigManager
+    方法: test_set_id_setting_new_id
+    描述: 验证 ConfigManager 能够为新的 CAN ID 创建配置并设置值。
+    预期结果: 1. 新 ID 配置创建成功; 2. 配置值设置正确; 3. ID 被添加到已知 ID 集合
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.062386
+
+  测试 #22
+    类名: TestConfigManager
+    方法: test_thread_safety
+    描述: 验证 ConfigManager 在多线程环境下的安全性，确保并发访问不会导致数据竞争或异常。
+    预期结果: 1. 没有线程安全相关的异常; 2. 所有线程的操作都正确完成; 3. 总操作数符合预期
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.019秒
+    时间: 2025-06-08T20:46:34.081437
+
+  测试 #23
+    类名: TestConfigManager
+    方法: test_update_global_setting
+    描述: 验证 ConfigManager 能够正确更新现有的全局配置设置。
+    预期结果: 1. 配置值成功更新为新值; 2. 新值与原始值不同
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.084424
+
+  测试 #24
+    类名: TestConfigManager
+    方法: test_update_global_setting_new_section
+    描述: 验证 ConfigManager 能够在新创建的配置节中设置配置值。
+    预期结果: 1. 新配置节创建成功; 2. 新配置值设置成功; 3. 能够正确获取新设置的值
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.086831
+
+  测试 #25
+    类名: TestConfigManager
+    方法: test_validation_errors_handling
+    描述: 验证 ConfigManager 能够正确处理包含无效配置值的文件，记录验证错误。
+    预期结果: 1. ConfigManager 实例创建成功; 2. 验证错误列表包含检测到的错误
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.090261
+
+
+文件: test_detection_integration.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestDetectionIntegration
+    方法: test_alert_severity_distribution
+    描述: 验证在混合攻击场景中，告警的严重性分布是否合理。
+    预期结果: 1. 应该产生告警; 2. 至少有一些中等或高严重性告警; 3. 严重性分布反映攻击的实际威胁程度
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.004秒
+    时间: 2025-06-08T20:46:34.598040
+
+  测试 #2
+    类名: TestDetectionIntegration
+    方法: test_detector_error_handling
+    描述: 验证检测器能够优雅地处理异常或问题帧，不会崩溃或抛出未处理的异常。
+    预期结果: 1. 检测器能够处理问题帧而不崩溃; 2. 返回值始终是列表类型; 3. 错误处理机制正常工作
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.600107
+
+  测试 #3
+    类名: TestDetectionIntegration
+    方法: test_detector_performance_comparison
+    描述: 验证所有检测器在处理大量帧时的性能表现，确保满足实时检测要求。
+    预期结果: 1. 所有检测器处理时间少于 10 秒; 2. 处理速度至少 50 帧/秒; 3. 性能满足实时检测要求
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.022秒
+    时间: 2025-06-08T20:46:34.622276
+
+  测试 #4
+    类名: TestDetectionIntegration
+    方法: test_drop_attack_detection
+    描述: 验证丢包检测器能够在集成环境中正确检测丢包攻击模式。
+    预期结果: 1. 应该检测到丢包攻击并产生告警; 2. 告警类型包含 iat_anomaly 等丢包相关类型; 3. 告警数量大于 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.004秒
+    时间: 2025-06-08T20:46:34.626279
+
+  测试 #5
+    类名: TestDetectionIntegration
+    方法: test_memory_usage_stability
+    描述: 验证检测系统在处理大量帧时内存使用是否稳定，不会出现内存泄漏。
+    预期结果: 1. 内存对象增长在合理范围内（<10000个对象）; 2. 没有明显的内存泄漏; 3. 系统能够长时间稳定运行
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.070秒
+    时间: 2025-06-08T20:46:34.696572
+
+  测试 #6
+    类名: TestDetectionIntegration
+    方法: test_multi_attack_scenario
+    描述: 验证检测系统能够在包含多种攻击类型的复杂场景中正确工作。
+    预期结果: 1. 应该检测到多种类型的攻击; 2. 至少检测到一种攻击类型; 3. 告警总数大于 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.005秒
+    时间: 2025-06-08T20:46:34.701411
+
+  测试 #7
+    类名: TestDetectionIntegration
+    方法: test_normal_traffic_processing
+    描述: 验证所有检测器在处理正常 CAN 流量时的协同工作，确保不产生误报告警。
+    预期结果: 1. 正常流量产生的告警数量应该很少（≤5个）; 2. 不应该有高严重性的误报告警; 3. 所有检测器都能正常处理正常流量
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.004秒
+    时间: 2025-06-08T20:46:34.705408
+
+  测试 #8
+    类名: TestDetectionIntegration
+    方法: test_replay_attack_detection
+    描述: 验证重放检测器能够在集成环境中正确检测重放攻击模式。
+    预期结果: 1. 应该检测到重放攻击并产生告警; 2. 告警类型包含 replay 相关类型; 3. 告警数量大于 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.707407
+
+  测试 #9
+    类名: TestDetectionIntegration
+    方法: test_state_consistency_across_detectors
+    描述: 验证多个检测器使用相同状态对象时不会相互干扰，保持状态一致性。
+    预期结果: 1. 状态的基本字段（时间戳、CAN ID）保持一致; 2. 检测器之间不会相互干扰状态; 3. 状态管理正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:34.709922
+
+  测试 #10
+    类名: TestDetectionIntegration
+    方法: test_tamper_attack_detection
+    描述: 验证篡改检测器能够在集成环境中正确检测数据篡改攻击。
+    预期结果: 1. 应该检测到篡改攻击并产生告警; 2. 告警类型包含 tamper 相关类型; 3. 告警数量大于 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:34.711922
+
+  测试 #11
+    类名: TestDetectionIntegration
+    方法: test_unknown_id_detection
+    描述: 验证通用规则检测器能够在集成环境中正确检测未知的 CAN ID。
+    预期结果: 1. 应该检测到未知 ID 并产生告警; 2. 告警类型为 unknown_id_detected; 3. 告警数量大于 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:34.712921
+
+
+文件: test_drop_detector.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestDropDetector
+    方法: test_calculate_current_iat
+    描述: 验证 DropDetector 能够正确计算连续帧之间的时间间隔。
+    预期结果: 1. 第一帧的 IAT 为 None（没有前一帧）; 2. 第二帧的 IAT 等于时间戳差值; 3. IAT 计算精度正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.217153
+
+  测试 #2
+    类名: TestDropDetector
+    方法: test_calculate_iat_z_score
+    描述: 验证 DropDetector 能够正确计算 IAT 的 Z 分数，用于统计异常检测。
+    预期结果: 1. 正常值的 Z 分数为 0; 2. 异常值的 Z 分数反映偏差程度; 3. 标准差为 0 时返回无穷大; 4. Z 分数计算公式正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.217153
+
+  测试 #3
+    类名: TestDropDetector
+    方法: test_check_consecutive_missing
+    描述: 验证 DropDetector 能够检测连续丢失的帧数量，并在超过阈值时产生告警。
+    预期结果: 1. 连续丢失帧数超过阈值时产生告警; 2. 告警类型为 consecutive_missing_frames; 3. 告警包含丢失帧数信息
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.218151
+
+  测试 #4
+    类名: TestDropDetector
+    方法: test_check_dlc_zero_special
+    描述: 验证 DropDetector 对 DLC 为 0 的帧进行特殊处理，检测其时序异常。
+    预期结果: 1. DLC 为 0 且 IAT 异常时产生告警; 2. 告警类型为 dlc_zero_timing_anomaly; 3. 特殊处理逻辑正确执行
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.218151
+
+  测试 #5
+    类名: TestDropDetector
+    方法: test_check_iat_anomaly_abnormal
+    描述: 验证当 IAT 超出正常范围时，DropDetector 能够正确检测并产生相应严重级别的告警。
+    预期结果: 1. 异常 IAT 产生 iat_anomaly 类型告警; 2. 告警严重级别根据偏差程度确定; 3. 大幅偏差产生 HIGH 级别告警
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.219153
+
+  测试 #6
+    类名: TestDropDetector
+    方法: test_check_iat_anomaly_normal
+    描述: 验证当 IAT 在正常范围内时，DropDetector 不会产生异常告警。
+    预期结果: 1. 正常 IAT 不产生任何告警; 2. 告警列表为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.220233
+
+  测试 #7
+    类名: TestDropDetector
+    方法: test_check_max_iat_factor
+    描述: 验证 DropDetector 能够检测 IAT 相对于平均值的倍数，并在超过最大因子时产生告警。
+    预期结果: 1. IAT 超过平均值的最大倍数时产生告警; 2. 告警类型为 iat_max_factor_violation; 3. 告警包含因子信息
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.221444
+
+  测试 #8
+    类名: TestDropDetector
+    方法: test_detect_disabled
+    描述: 验证当 drop 检测在配置中被禁用时，检测器不执行任何检测逻辑。
+    预期结果: 1. 检测被禁用时不产生任何告警; 2. 检测器正确响应配置变更; 3. 性能优化（跳过检测逻辑）
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.221444
+
+  测试 #9
+    类名: TestDropDetector
+    方法: test_detect_drop_attack_sequence
+    描述: 验证 DropDetector 能够检测模拟的丢包攻击序列，识别异常的帧间间隔模式。
+    预期结果: 1. 检测到丢包攻击并产生告警; 2. 告警类型包含 iat_anomaly; 3. 攻击模式被正确识别
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.222442
+
+  测试 #10
+    类名: TestDropDetector
+    方法: test_detect_no_learned_data
+    描述: 验证当 CAN ID 没有学习数据时，DropDetector 的检测行为是否正确。
+    预期结果: 1. 没有学习数据时不产生告警; 2. 检测器优雅处理未知 ID; 3. 不抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.222442
+
+  测试 #11
+    类名: TestDropDetector
+    方法: test_detector_initialization
+    描述: 验证 DropDetector 实例能够正确初始化，设置正确的检测器类型和初始状态。
+    预期结果: 1. 检测器类型为 'drop'; 2. IAT 异常计数初始化为 0; 3. 连续丢失计数初始化为 0; 4. 最大 IAT 违规计数初始化为 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.223442
+
+  测试 #12
+    类名: TestDropDetector
+    方法: test_estimate_missing_frames
+    描述: 验证 DropDetector 能够根据 IAT 和学习统计数据准确估算丢失的帧数。
+    预期结果: 1. 正常 IAT 估算丢失帧数为 0; 2. 异常 IAT 估算丢失帧数大于 0; 3. 更大的 IAT 估算更多的丢失帧; 4. 估算算法逻辑正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.223442
+
+  测试 #13
+    类名: TestDropDetector
+    方法: test_get_learned_iat_stats
+    描述: 验证 DropDetector 能够正确获取已知 CAN ID 的学习 IAT 统计数据，并正确处理未知 ID。
+    预期结果: 1. 已知 ID 返回包含 mean_iat 和 std_iat 的字典; 2. 统计数据值与配置文件中的值匹配; 3. 未知 ID 返回 None
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.224442
+
+  测试 #14
+    类名: TestDropDetector
+    方法: test_performance_with_large_sequence
+    描述: 验证 DropDetector 在处理大量帧序列时的性能表现，确保检测效率。
+    预期结果: 1. 1000帧处理时间少于5秒; 2. 检测器性能满足实时要求; 3. 正常帧不产生误报告警; 4. 内存使用稳定
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.009秒
+    时间: 2025-06-08T20:46:35.233325
+
+  测试 #15
+    类名: TestDropDetector
+    方法: test_update_drop_state
+    描述: 验证 DropDetector 能够正确更新检测状态，包括检测时间和计数。
+    预期结果: 1. 检测时间字段被正确设置; 2. 检测计数字段被正确设置; 3. 状态更新逻辑正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.234303
+
+
+文件: test_general_rules_detector.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestGeneralRulesDetector
+    方法: test_auto_add_id_to_baseline
+    描述: 验证 GeneralRulesDetector 能够正确执行将 ID 自动添加到基线的操作。
+    预期结果: 1. 调用基线引擎的自动添加方法; 2. Shadow 学习状态标记为已添加; 3. 自动添加计数增加
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.737703
+
+  测试 #2
+    类名: TestGeneralRulesDetector
+    方法: test_auto_add_threshold
+    描述: 验证当 Shadow 学习的帧数达到阈值时，系统能够自动将 ID 添加到基线。
+    预期结果: 1. 达到阈值时调用自动添加方法; 2. Shadow 学习状态标记为已添加到基线; 3. 基线引擎的相关方法被正确调用
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.737703
+
+  测试 #3
+    类名: TestGeneralRulesDetector
+    方法: test_check_unknown_id_disabled
+    描述: 验证当未知 ID 检测在配置中被禁用时，检测器不执行检测逻辑。
+    预期结果: 1. 检测被禁用时不产生任何告警; 2. 检测器正确响应配置变更
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.738726
+
+  测试 #4
+    类名: TestGeneralRulesDetector
+    方法: test_check_unknown_id_known
+    描述: 验证当处理已知 CAN ID 的帧时，GeneralRulesDetector 不会产生未知 ID 告警。
+    预期结果: 1. 已知 ID 不产生任何告警; 2. 告警列表为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.739702
+
+  测试 #5
+    类名: TestGeneralRulesDetector
+    方法: test_check_unknown_id_unknown
+    描述: 验证当处理未知 CAN ID 的帧时，GeneralRulesDetector 能够正确检测并产生告警。
+    预期结果: 1. 未知 ID 产生 unknown_id_detected 类型告警; 2. 告警严重级别为 HIGH; 3. 告警数量为 1
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:35.739702
+
+  测试 #6
+    类名: TestGeneralRulesDetector
+    方法: test_detect_disabled
+    描述: 验证当通用规则检测在配置中被完全禁用时，检测器不执行任何检测逻辑。
+    预期结果: 1. 检测被禁用时不产生任何告警; 2. 检测器正确响应配置变更; 3. 性能优化（跳过检测逻辑）
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.740703
+
+  测试 #7
+    类名: TestGeneralRulesDetector
+    方法: test_detect_unknown_id_sequence
+    描述: 验证 GeneralRulesDetector 能够正确处理连续的未知 ID 帧序列。
+    预期结果: 1. 检测到未知 ID 并产生告警; 2. 告警类型为 unknown_id_detected; 3. 告警数量大于 0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.741703
+
+  测试 #8
+    类名: TestGeneralRulesDetector
+    方法: test_detector_initialization
+    描述: 验证 GeneralRulesDetector 实例能够正确初始化，设置正确的检测器类型和初始状态。
+    预期结果: 1. 检测器类型为 'general_rules'; 2. 各种计数器初始化为 0; 3. 基线引擎正确关联; 4. Shadow 学习状态初始化为空字典
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:35.743216
+
+  测试 #9
+    类名: TestGeneralRulesDetector
+    方法: test_get_unknown_id_settings
+    描述: 验证 GeneralRulesDetector 能够正确从配置管理器中获取未知 ID 检测的相关设置。
+    预期结果: 1. 返回字典类型的设置; 2. 包含 learning_mode 等关键配置项; 3. 配置值与预期一致
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:35.745215
+
+  测试 #10
+    类名: TestGeneralRulesDetector
+    方法: test_post_detect
+    描述: 验证 GeneralRulesDetector 在执行检测后的后处理步骤是否正确更新状态。
+    预期结果: 1. ID 状态中添加检测时间字段; 2. ID 状态中添加检测计数字段; 3. 状态更新逻辑正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.746216
+
+  测试 #11
+    类名: TestGeneralRulesDetector
+    方法: test_pre_detect
+    描述: 验证 GeneralRulesDetector 在执行检测前的预处理步骤是否正确。
+    预期结果: 1. 返回 True 表示继续检测; 2. 检测计数正确更新; 3. 最后检测时间被设置
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:35.748215
+
+  测试 #12
+    类名: TestGeneralRulesDetector
+    方法: test_shadow_learning_mode
+    描述: 验证 GeneralRulesDetector 在 Shadow 学习模式下能够正确学习未知 ID 并更新状态。
+    预期结果: 1. 产生告警的同时添加到 Shadow 学习状态; 2. Shadow 学习状态正确记录帧计数; 3. 调用基线引擎的 Shadow 学习方法
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:35.750215
+
+  测试 #13
+    类名: TestGeneralRulesDetector
+    方法: test_should_auto_add_id
+    描述: 验证 GeneralRulesDetector 能够正确判断何时应该将未知 ID 自动添加到基线。
+    预期结果: 1. 满足条件时返回 True; 2. 已添加过的 ID 返回 False; 3. 判断逻辑正确
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:35.752220
+
+  测试 #14
+    类名: TestGeneralRulesDetector
+    方法: test_update_shadow_learning_state
+    描述: 验证 GeneralRulesDetector 能够正确维护和更新 Shadow 学习状态。
+    预期结果: 1. 首次更新正确初始化状态; 2. 帧计数从 1 开始; 3. 添加到基线标志初始为 False; 4. 后续更新正确增加计数
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:35.753968
+
+
+文件: test_replay_detector.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestReplayDetector
+    方法: test_calculate_payload_repetition_score
+    描述: 测试计算载荷重复分数功能
+    预期结果: 1. 重复次数多的载荷应有更高的分数; 2. 分数应反映载荷的重复程度
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.259324
+
+  测试 #2
+    类名: TestReplayDetector
+    方法: test_check_contextual_payload_repetition_abnormal
+    描述: 验证 ReplayDetector 对载荷重复攻击的检测能力，确保能识别异常的载荷重复模式。
+    预期结果: 1. 应产生1个载荷重复告警; 2. 告警类型应为"replay_identical_payload"
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.259324
+
+  测试 #3
+    类名: TestReplayDetector
+    方法: test_check_contextual_payload_repetition_normal
+    描述: 验证 ReplayDetector 对正常载荷变化的检测行为，确保不同载荷不产生误报。
+    预期结果: 1. 首次出现的载荷不应产生告警; 2. 返回的告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.260323
+
+  测试 #4
+    类名: TestReplayDetector
+    方法: test_check_fast_replay_enhanced_no_periodicity
+    描述: 测试增强快速重放检测功能（无周期性数据场景）
+    预期结果: 1. 应返回列表类型的结果; 2. 当无周期性数据时应回退到传统检测
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.260323
+
+  测试 #5
+    类名: TestReplayDetector
+    方法: test_check_fast_replay_legacy
+    描述: 测试传统快速重放检测功能
+    预期结果: 1. 应产生1个快速重放告警; 2. 告警类型应为"replay_fast_replay"
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.261353
+
+  测试 #6
+    类名: TestReplayDetector
+    方法: test_check_sequence_replay_abnormal
+    描述: 验证 ReplayDetector 对序列重放攻击的检测能力，确保能识别重复的帧序列模式。
+    预期结果: 1. 重复序列应产生告警; 2. 应包含序列重放类型的告警
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.262324
+
+  测试 #7
+    类名: TestReplayDetector
+    方法: test_check_sequence_replay_normal
+    描述: 验证 ReplayDetector 对正常序列的检测行为，确保不重复的序列不产生误报。
+    预期结果: 1. 正常序列不应产生任何告警; 2. 总告警数量应为0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.263324
+
+  测试 #8
+    类名: TestReplayDetector
+    方法: test_detect_disabled
+    描述: 验证 ReplayDetector 在被禁用时的行为，确保配置控制功能正常工作。
+    预期结果: 1. 当检测器被禁用时不应产生任何告警; 2. 返回的告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.263324
+
+  测试 #9
+    类名: TestReplayDetector
+    方法: test_detect_replay_attack_sequence
+    描述: 验证 ReplayDetector 对重放攻击序列的检测能力，确保能识别混合在正常流量中的重放攻击。
+    预期结果: 1. 应检测到重放攻击并产生告警; 2. 告警类型应包含"replay"相关类型
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.264323
+
+  测试 #10
+    类名: TestReplayDetector
+    方法: test_detector_initialization
+    描述: 验证 ReplayDetector 检测器的初始化过程，确保所有属性和状态正确设置。
+    预期结果: 1. detector_type应为'replay'; 2. 所有攻击计数器应为0; 3. _periodicity_cache应为dict类型
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.265326
+
+  测试 #11
+    类名: TestReplayDetector
+    方法: test_find_sequence_patterns
+    描述: 测试查找序列模式功能
+    预期结果: 1. 应找到至少一个重复模式; 2. 应正确识别ABC重复模式
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.266325
+
+  测试 #12
+    类名: TestReplayDetector
+    方法: test_get_periodicity_baseline
+    描述: 测试获取周期性基线数据功能
+    预期结果: 1. 已知ID应返回有效的周期性数据; 2. 未知ID应返回None
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.266325
+
+  测试 #13
+    类名: TestReplayDetector
+    方法: test_is_periodic_pattern
+    描述: 测试周期性模式判断功能
+    预期结果: 1. 接近学习均值的IAT应被判断为周期性; 2. 远离学习均值的IAT应被判断为非周期性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.267323
+
+  测试 #14
+    类名: TestReplayDetector
+    方法: test_performance_with_large_sequence
+    描述: 验证 ReplayDetector 在处理大量帧序列时的性能表现，确保检测效率满足实时要求。
+    预期结果: 1. 处理时间应在合理范围内; 2. 检测器应能处理大量帧而不出错; 3. 内存使用应保持稳定
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.015秒
+    时间: 2025-06-08T20:46:36.282037
+
+  测试 #15
+    类名: TestReplayDetector
+    方法: test_periodicity_cache_cleanup
+    描述: 测试周期性缓存清理
+    预期结果: 测试应该通过
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.283039
+
+  测试 #16
+    类名: TestReplayDetector
+    方法: test_update_payload_history
+    描述: 测试更新载荷历史功能
+    预期结果: 1. 首次添加的哈希计数应为1; 2. 相同哈希再次添加时计数应递增; 3. 不同哈希应创建新的历史条目
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.284040
+
+  测试 #17
+    类名: TestReplayDetector
+    方法: test_update_replay_state
+    描述: 验证 ReplayDetector 状态更新机制的正确性，确保检测状态信息得到正确维护。
+    预期结果: 1. 应添加重放检测相关的状态字段; 2. 载荷哈希值应正确保存
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.285047
+
+  测试 #18
+    类名: TestReplayDetector
+    方法: test_update_sequence_buffer
+    描述: 测试更新序列缓冲区功能
+    预期结果: 1. 缓冲区长度不应超过最大长度限制; 2. 应保留最新添加的元素
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:36.287050
+
+
+文件: test_state_manager.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestStateManager
+    方法: test_calculate_iat
+    描述: 验证StateManager能够正确计算连续CAN帧之间的时间间隔， 第一帧不应有IAT值，后续帧应正确计算与前一帧的时间差。
+    预期结果: 1. 第一帧处理后状态中不应包含last_iat字段; 2. 第二帧处理后应正确计算IAT值; 3. IAT值应等于两帧时间戳的差值(0.15秒); 4. IAT计算应精确到毫秒级别; 5. 计算过程不应抛出异常; 6. IAT值应为正数
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.790488
+
+  测试 #2
+    类名: TestStateManager
+    方法: test_cleanup_inactive_ids
+    描述: 验证StateManager的内部清理机制能够正确识别和移除不活跃的ID状态， 基于活跃时间阈值进行智能清理，优化内存使用。
+    预期结果: 1. 不活跃的ID状态应被正确识别; 2. 清理操作应成功移除不活跃的ID; 3. 活跃的ID状态应保持不变; 4. 清理后总ID数量应减少; 5. 清理逻辑应基于last_active时间戳; 6. 清理过程应保持数据一致性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.790488
+
+  测试 #3
+    类名: TestStateManager
+    方法: test_cleanup_old_data
+    描述: 验证StateManager能够正确识别和清理长时间未活跃的ID状态， 保留活跃的ID状态，确保内存使用效率和系统性能。
+    预期结果: 1. 长时间未活跃的ID状态应被正确识别; 2. 旧的ID状态应被成功清理; 3. 活跃的ID状态应被保留; 4. 清理后ID总数应减少; 5. 清理操作应基于last_active时间戳; 6. 清理过程不应影响活跃状态的完整性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.791492
+
+  测试 #4
+    类名: TestStateManager
+    方法: test_clear_all_states
+    描述: 验证StateManager能够正确清空所有ID状态信息， 将系统重置到初始状态，释放所有占用的内存。
+    预期结果: 1. 清空前应确认存在多个ID状态; 2. 清空操作应成功执行; 3. 清空后id_states字典应为空; 4. 所有ID状态数据应被完全清除; 5. 系统应恢复到初始状态; 6. 清空操作不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.791492
+
+  测试 #5
+    类名: TestStateManager
+    方法: test_force_remove_oldest_id
+    描述: 验证StateManager在内存压力下能够强制移除最旧的ID状态， 基于first_seen时间戳确定最旧的ID并安全移除。
+    预期结果: 1. 应成功移除一个ID状态; 2. 移除的应该是first_seen时间最早的ID; 3. 总ID数量应减少1; 4. 最旧的ID(id_0)应从状态管理器中移除; 5. 其他ID状态应保持完整; 6. 强制移除操作不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.792492
+
+  测试 #6
+    类名: TestStateManager
+    方法: test_get_id_state
+    描述: 验证StateManager能够正确获取指定ID的状态信息， 对存在的ID返回完整状态，对不存在的ID返回None。
+    预期结果: 1. 存在的ID应返回非空状态对象; 2. 返回的状态应包含正确的frame_count值; 3. 不存在的ID应返回None; 4. 获取操作不应修改状态数据; 5. 方法应正确处理各种ID格式; 6. 获取过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.792492
+
+  测试 #7
+    类名: TestStateManager
+    方法: test_get_stats
+    描述: 验证StateManager能够正确收集和返回系统运行统计信息， 包括更新次数、活跃ID数量、清理次数等关键指标。
+    预期结果: 1. 统计信息应正确反映实际操作次数; 2. total_updates应等于实际更新次数(5); 3. active_ids应等于当前活跃ID数量(5); 4. 统计信息应包含所有必要字段; 5. 返回的统计数据应为字典格式; 6. 统计信息获取不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.793492
+
+  测试 #8
+    类名: TestStateManager
+    方法: test_initialize_id_state
+    描述: 验证StateManager能够正确为新的CAN ID创建和初始化状态记录， 包括设置首次见到时间、帧计数、时间戳和各种历史记录缓冲区。
+    预期结果: 1. 新ID应成功添加到id_states字典中; 2. first_seen时间戳应正确设置; 3. frame_count应初始化为0; 4. last_timestamp应设置为提供的时间戳; 5. last_active时间应正确设置; 6. payload_hashes列表应初始化为空列表; 7. sequence_buffer列表应初始化为空列表; 8. 所有数据结构类型应符合预期
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.794493
+
+  测试 #9
+    类名: TestStateManager
+    方法: test_limit_payload_hashes
+    描述: 验证StateManager能够正确限制每个ID状态中存储的载荷哈希数量， 防止内存无限增长，保持系统性能稳定。
+    预期结果: 1. 载荷哈希列表长度应被限制在最大值以内; 2. 超出限制的哈希应被移除; 3. 限制操作应保留最新的哈希值; 4. 限制过程不应影响其他状态数据; 5. 内存使用应得到有效控制; 6. 限制操作不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:46:36.794493
+
+  测试 #10
+    类名: TestStateManager
+    方法: test_limit_sequence_buffer
+    描述: 验证StateManager能够正确限制每个ID状态中序列缓冲区的大小， 防止缓冲区无限增长，确保内存使用效率。
+    预期结果: 1. 序列缓冲区长度应被限制在最大值以内; 2. 超出限制的序列数据应被移除; 3. 限制操作应保留最新的序列数据; 4. 限制过程不应影响其他状态信息; 5. 缓冲区管理应高效执行; 6. 限制操作不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:46:36.796494
+
+  测试 #11
+    类名: TestStateManager
+    方法: test_max_ids_limit
+    描述: 验证StateManager能够正确执行最大ID数量限制，当ID数量超过设定阈值时， 应自动清理旧的ID状态以保持内存使用在合理范围内。
+    预期结果: 1. 创建超过max_ids限制的ID时应触发清理机制; 2. 最终ID数量不应超过设定的最大值(3个); 3. 清理过程应优先移除最旧的ID状态; 4. 清理操作不应影响系统稳定性; 5. 内存管理应正确执行; 6. 清理过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:46:36.798494
+
+  测试 #12
+    类名: TestStateManager
+    方法: test_performance_with_large_dataset
+    描述: 验证StateManager在处理大量CAN帧数据时的性能表现， 确保系统能够在合理时间内处理大规模数据集。
+    预期结果: 1. 1000帧数据应在5秒内完成处理; 2. 最终应正确管理50个不同的ID状态; 3. 统计信息应正确反映1000次更新; 4. 处理过程应保持高效率; 5. 大数据集处理不应导致内存泄漏; 6. 性能测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:36.800997
+
+  测试 #13
+    类名: TestStateManager
+    方法: test_periodic_cleanup
+    描述: 验证StateManager的定期清理机制能够按照设定的时间间隔自动触发， 在系统运行过程中自动维护内存使用效率。
+    预期结果: 1. 清理间隔应正确设置为1秒; 2. 超过清理间隔后的更新操作应触发清理; 3. last_cleanup_time应正确更新; 4. 清理机制应自动运行; 5. 定期清理不应影响正常操作; 6. 清理过程应保持系统稳定性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 1.102秒
+    时间: 2025-06-08T20:46:37.902618
+
+  测试 #14
+    类名: TestStateManager
+    方法: test_remove_id_state
+    描述: 验证StateManager能够正确移除指定ID的状态信息， 成功移除存在的ID并正确处理不存在的ID移除请求。
+    预期结果: 1. 存在的ID应成功移除并返回True; 2. 移除后ID不应存在于状态管理器中; 3. 不存在的ID移除请求应返回False; 4. 移除操作不应影响其他ID状态; 5. 移除过程应完全清理相关数据; 6. 移除操作不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:37.905639
+
+  测试 #15
+    类名: TestStateManager
+    方法: test_state_manager_initialization
+    描述: 验证StateManager类能够正确初始化，包括设置最大ID数量、清理间隔、 初始化内部数据结构和统计信息等关键参数。
+    预期结果: 1. max_ids参数应正确设置为100; 2. cleanup_interval参数应正确设置为60秒; 3. id_states字典应正确初始化为空字典; 4. 统计信息应正确初始化，所有计数器为0; 5. 内部数据结构类型应符合预期; 6. 初始化过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:37.908779
+
+  测试 #16
+    类名: TestStateManager
+    方法: test_update_and_get_state_existing_id
+    描述: 验证StateManager在处理已存在CAN ID的后续帧时，能够正确更新现有状态记录， 包括计算帧间间隔(IAT)、更新帧计数和时间戳等信息。
+    预期结果: 1. 应返回与第一次相同的状态对象引用; 2. last_timestamp应更新为最新帧的时间戳; 3. frame_count应正确递增到2; 4. last_iat应正确计算为两帧间的时间差; 5. 统计信息中total_updates应增加到2; 6. 状态更新过程应保持数据一致性
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.003秒
+    时间: 2025-06-08T20:46:37.911351
+
+  测试 #17
+    类名: TestStateManager
+    方法: test_update_and_get_state_new_id
+    描述: 验证StateManager在处理新CAN ID的第一个帧时，能够正确创建状态记录 并返回初始化后的状态信息，同时更新相关统计数据。
+    预期结果: 1. 方法应成功返回非空状态对象; 2. last_timestamp应设置为帧的时间戳; 3. frame_count应更新为1; 4. 统计信息中total_updates应增加1; 5. 新ID状态应正确存储在内部数据结构中; 6. 状态更新过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.010秒
+    时间: 2025-06-08T20:46:37.921343
+
+
+文件: test_system_e2e.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestSystemEndToEnd
+    方法: test_alert_output
+    描述: 验证系统能够正确生成和输出警报信息，包括警报生成、 警报管理、文件输出和JSON格式验证等功能。
+    预期结果: 1. 应成功处理帧数据并可能生成警报; 2. 警报应正确发送到警报管理器; 3. 警报刷新操作应成功执行; 4. 警报文件应正确生成(如果有警报); 5. 警报JSON格式应正确; 6. 警报数据应包含必要字段(timestamp, alert_type, severity); 7. 警报输出应保持数据完整性; 8. 警报处理不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.031秒
+    时间: 2025-06-08T20:46:38.455570
+
+  测试 #2
+    类名: TestSystemEndToEnd
+    方法: test_config_loading
+    描述: 验证系统能够正确加载配置文件，包括配置管理器初始化、 配置版本验证、各检测器配置获取和ID特定设置访问等功能。
+    预期结果: 1. 配置管理器应成功初始化且非空; 2. 配置版本应成功获取且非空; 3. drop检测器配置应正确获取; 4. tamper检测器配置应正确获取; 5. replay检测器配置应正确获取; 6. 各检测器启用状态应为布尔类型; 7. 已知ID的特定配置应正确获取; 8. 配置加载过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.004秒
+    时间: 2025-06-08T20:46:38.459571
+
+  测试 #3
+    类名: TestSystemEndToEnd
+    方法: test_data_file_parsing
+    描述: 验证系统能够正确解析CAN数据文件，包括逐行读取、 帧结构验证、数据完整性检查等关键解析功能。
+    预期结果: 1. 应成功读取到数据行(至少1行); 2. 应解析出有效的CAN帧(至少1个); 3. 解析的帧应为CANFrame类型; 4. 帧的timestamp字段应非空; 5. 帧的can_id字段应非空; 6. 帧的dlc字段应非空; 7. 帧的payload字段应非空; 8. 解析过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.007秒
+    时间: 2025-06-08T20:46:38.466741
+
+  测试 #4
+    类名: TestSystemEndToEnd
+    方法: test_detection_pipeline
+    描述: 验证完整的CAN帧检测流水线，包括帧解析、状态更新、 多检测器运行、警报生成和警报管理等端到端流程。
+    预期结果: 1. 应成功处理多个CAN帧(至少1个); 2. 状态管理器应正确更新帧状态; 3. 所有检测器应成功运行; 4. 检测过程可能生成警报; 5. 警报应正确发送到警报管理器; 6. 警报类型分布应正确统计; 7. 检测流水线应保持稳定运行; 8. 处理过程不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.073秒
+    时间: 2025-06-08T20:46:38.540810
+
+  测试 #5
+    类名: TestSystemEndToEnd
+    方法: test_memory_usage
+    描述: 验证系统在处理大量CAN帧时的内存使用效率， 监控内存增长情况并确保内存使用在合理范围内。
+    预期结果: 1. 应成功处理大量帧数据(5000帧); 2. 状态管理器应正确更新所有帧状态; 3. 所有检测器应正常运行; 4. 内存增长应在合理范围内(<100MB); 5. 垃圾回收应正确执行; 6. 每帧平均内存使用应可控; 7. 内存监控应准确记录; 8. 内存测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.243秒
+    时间: 2025-06-08T20:46:38.783975
+
+  测试 #6
+    类名: TestSystemEndToEnd
+    方法: test_system_performance
+    描述: 验证系统的整体性能表现，包括处理速度、错误率、 吞吐量等关键性能指标的测量和评估。
+    预期结果: 1. 应成功处理大量帧数据(2000帧); 2. 处理时间应被正确记录; 3. 处理速度应达到合理水平(>1帧/秒); 4. 解析错误应在可接受范围内; 5. 系统应保持稳定运行; 6. 性能指标应准确计算; 7. 错误处理应正确执行; 8. 性能测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.099秒
+    时间: 2025-06-08T20:46:38.883076
+
+
+文件: test_system_performance.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestSystemPerformance
+    方法: test_concurrent_processing
+    描述: 验证系统的并发处理能力， 测试多线程处理、资源竞争和同步机制等并发特性。
+    预期结果: 1. 应成功启动多个并发处理线程(4个); 2. 每个线程应处理指定数量的帧(1000帧); 3. 线程间应正确同步和协调; 4. 总处理时间应合理; 5. 并发效率应优于串行处理; 6. 不应出现资源竞争问题; 7. 线程安全应得到保证; 8. 并发测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.506秒
+    时间: 2025-06-08T20:46:39.892773
+
+  测试 #2
+    类名: TestSystemPerformance
+    方法: test_cpu_usage_efficiency
+    描述: 验证系统在处理CAN帧时的CPU使用效率， 监控CPU负载、处理效率和资源利用率等指标。
+    预期结果: 1. 应成功处理大量帧数据(8000帧); 2. CPU使用率应被准确监控; 3. 平均CPU使用率应在合理范围内(<90%); 4. 最大CPU使用率应可控(<98%); 5. CPU效率应保持稳定; 6. 处理负载应均匀分布; 7. 系统响应应保持流畅; 8. CPU效率测试不应抛出异常
+    实际结果: 测试失败: AssertionError: 116.4 not less than 95 : 最大CPU使用率应该小于95%
+    状态: FAIL
+    耗时: 1.114秒
+    错误信息: AssertionError: 116.4 not less than 95 : 最大CPU使用率应该小于95%
+    时间: 2025-06-08T20:46:41.007083
+
+  测试 #3
+    类名: TestSystemPerformance
+    方法: test_detector_individual_performance
+    描述: 验证各个检测器的独立性能表现， 分别测试drop、tamper和replay检测器的处理效率和准确性。
+    预期结果: 1. 应成功测试所有检测器(drop, tamper, replay); 2. 每个检测器应处理指定数量的帧(2000帧); 3. 各检测器处理时间应被准确记录; 4. 检测器性能应达到合理水平; 5. 各检测器应独立正常工作; 6. 检测准确性应保持稳定; 7. 性能指标应准确计算; 8. 检测器性能测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.058秒
+    时间: 2025-06-08T20:46:41.066516
+
+  测试 #4
+    类名: TestSystemPerformance
+    方法: test_latency_performance
+    描述: 验证系统处理CAN帧的延迟性能， 测量单帧处理时间、响应延迟和处理一致性等指标。
+    预期结果: 1. 应成功处理多个帧数据(1000帧); 2. 每帧处理时间应被准确记录; 3. 平均处理延迟应在合理范围内(<10ms); 4. 最大处理延迟应可控(<50ms); 5. 延迟分布应相对均匀; 6. 处理时间应保持一致性; 7. 系统响应应及时; 8. 延迟测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.442秒
+    时间: 2025-06-08T20:46:41.508033
+
+  测试 #5
+    类名: TestSystemPerformance
+    方法: test_long_running_stability
+    描述: 验证系统长时间连续运行的稳定性， 监控系统状态、资源使用和性能衰减等长期运行指标。
+    预期结果: 1. 应成功运行指定时间(30秒); 2. 系统应保持持续稳定运行; 3. 处理性能应保持一致; 4. 内存使用应保持稳定; 5. 不应出现性能衰减; 6. 系统状态应保持正常; 7. 资源使用应保持合理; 8. 长期运行不应导致系统异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 6.963秒
+    时间: 2025-06-08T20:46:48.470676
+
+  测试 #6
+    类名: TestSystemPerformance
+    方法: test_memory_usage_stability
+    描述: 验证系统长时间运行时的内存使用稳定性， 监控内存泄漏、垃圾回收效果和内存增长趋势。
+    预期结果: 1. 应成功处理大量帧数据(15000帧); 2. 内存使用应保持相对稳定; 3. 内存增长应在合理范围内(<200MB); 4. 垃圾回收应有效执行; 5. 不应出现明显的内存泄漏; 6. 每帧平均内存使用应可控; 7. 内存监控应准确记录; 8. 内存稳定性测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 3.026秒
+    时间: 2025-06-08T20:46:51.496317
+
+  测试 #7
+    类名: TestSystemPerformance
+    方法: test_stress_performance
+    描述: 验证系统在高负载压力下的性能表现， 测试系统稳定性、错误处理和恢复能力等关键指标。
+    预期结果: 1. 应成功处理超大量帧数据(20000帧); 2. 系统应保持稳定运行; 3. 处理速度应保持在合理水平; 4. 错误率应在可接受范围内; 5. 内存使用应保持可控; 6. CPU使用应保持合理; 7. 系统应正确处理压力负载; 8. 压力测试不应导致系统崩溃
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 1.921秒
+    时间: 2025-06-08T20:46:53.417138
+
+  测试 #8
+    类名: TestSystemPerformance
+    方法: test_system_resource_limits
+    描述: 验证系统在资源限制条件下的表现， 测试内存限制、CPU限制和处理能力边界等资源约束场景。
+    预期结果: 1. 应成功处理大量帧数据(25000帧); 2. 系统应正确处理资源压力; 3. 内存使用应在限制范围内; 4. CPU使用应保持合理; 5. 系统应优雅处理资源不足; 6. 性能应在可接受范围内; 7. 错误处理应正确执行; 8. 资源限制测试不应导致系统崩溃
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 10.188秒
+    时间: 2025-06-08T20:47:03.605027
+
+  测试 #9
+    类名: TestSystemPerformance
+    方法: test_throughput_performance
+    描述: 验证系统在处理大量CAN帧时的吞吐量性能， 测量处理速度、帧率和系统响应时间等关键指标。
+    预期结果: 1. 应成功处理大量帧数据(10000帧); 2. 处理时间应被准确记录; 3. 平均处理速度应达到合理水平(>100帧/秒); 4. 系统应保持稳定的吞吐量; 5. 内存使用应保持稳定; 6. 处理延迟应在可接受范围内; 7. 性能指标应准确计算; 8. 吞吐量测试不应抛出异常
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 3.090秒
+    时间: 2025-06-08T20:47:06.695484
+
+
+文件: test_tamper_detector.py
+------------------------------------------------------------
+  测试 #1
+    类名: TestTamperDetector
+    方法: test_analyze_byte_behavior
+    描述: 验证 TamperDetector 字节行为分析功能的正确性，确保能准确识别不同类型的字节行为模式。
+    预期结果: 1. 应返回字节行为分析结果; 2. 结果应包含各字节的行为特征
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.205724
+
+  测试 #2
+    类名: TestTamperDetector
+    方法: test_calculate_byte_change_ratio
+    描述: 验证 TamperDetector 字节变化率计算算法的准确性，确保能正确量化载荷变化程度。
+    预期结果: 1. 部分变化载荷的变化率应为0.5; 2. 相同载荷的变化率应为0.0; 3. 完全不同载荷的变化率应为1.0
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.207722
+
+  测试 #3
+    类名: TestTamperDetector
+    方法: test_check_byte_behavior_counter_byte
+    描述: 验证 TamperDetector 对正常计数器字节行为的检测，确保符合计数器模式的字节不产生误报。
+    预期结果: 1. 正常的计数器字节行为不应产生告警; 2. 计数器字节相关告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:47:07.209621
+
+  测试 #4
+    类名: TestTamperDetector
+    方法: test_check_byte_behavior_static_byte
+    描述: 验证 TamperDetector 对符合期望的静态字节的检测行为，确保正常静态字节不产生误报。
+    预期结果: 1. 符合期望的静态字节不应产生告警; 2. 静态字节相关告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.210622
+
+  测试 #5
+    类名: TestTamperDetector
+    方法: test_check_byte_behavior_static_byte_mismatch
+    描述: 验证 TamperDetector 对静态字节篡改的检测能力，确保能识别静态字节值的异常变化。
+    预期结果: 1. 不符合期望的静态字节应产生告警; 2. 应产生一个静态字节不匹配告警
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.211620
+
+  测试 #6
+    类名: TestTamperDetector
+    方法: test_check_byte_change_ratio_abnormal
+    描述: 验证 TamperDetector 对异常字节变化率的检测能力，确保能识别大幅载荷篡改。
+    预期结果: 1. 应产生一个字节变化率异常告警; 2. 告警类型应为tamper_byte_change_ratio
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.212619
+
+  测试 #7
+    类名: TestTamperDetector
+    方法: test_check_byte_change_ratio_normal
+    描述: 验证 TamperDetector 对正常字节变化率的检测行为，确保小幅变化不产生误报。
+    预期结果: 1. 小幅字节变化不应产生告警; 2. 告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.213619
+
+  测试 #8
+    类名: TestTamperDetector
+    方法: test_check_dlc_anomaly_abnormal
+    描述: 验证 TamperDetector 对异常DLC值的检测能力，确保能正确识别DLC篡改攻击。
+    预期结果: 1. 应产生一个DLC异常告警; 2. 告警类型应为tamper_dlc_anomaly; 3. 告警严重级别应为HIGH
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:47:07.215618
+
+  测试 #9
+    类名: TestTamperDetector
+    方法: test_check_dlc_anomaly_normal
+    描述: 验证 TamperDetector 对正常DLC值的检测行为，确保不产生误报。
+    预期结果: 1. 正常DLC值不应产生任何告警; 2. 告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.216618
+
+  测试 #10
+    类名: TestTamperDetector
+    方法: test_check_entropy_anomaly_abnormal
+    描述: 验证 TamperDetector 对高熵载荷的检测能力，确保能识别可能的载荷篡改。
+    预期结果: 1. 高熵载荷可能产生熵异常告警（取决于具体熵值）; 2. 函数应正常执行不崩溃; 3. 返回值应为告警列表
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.000秒
+    时间: 2025-06-08T20:47:07.217619
+
+  测试 #11
+    类名: TestTamperDetector
+    方法: test_check_entropy_anomaly_normal
+    描述: 验证 TamperDetector 对正常熵值载荷的检测行为，确保低熵载荷不产生误报。
+    预期结果: 1. 低熵载荷不应产生熵异常告警; 2. 告警列表应为空
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.218624
+
+  测试 #12
+    类名: TestTamperDetector
+    方法: test_detect_disabled
+    描述: 验证 TamperDetector 在被禁用时的行为，确保配置控制功能正常工作。
+    预期结果: 1. 检测被禁用时不应产生任何告警
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:47:07.220574
+
+  测试 #13
+    类名: TestTamperDetector
+    方法: test_detect_no_learned_data
+    描述: 验证 TamperDetector 在缺少学习数据时的检测行为，确保系统能优雅处理未知ID。
+    预期结果: 1. 应返回告警列表（可能为空或包含DLC异常）; 2. 没有学习数据时只能进行基本检测
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.221573
+
+  测试 #14
+    类名: TestTamperDetector
+    方法: test_detect_small_dlc_skip_payload_analysis
+    描述: 验证 TamperDetector 对小DLC帧的处理逻辑，确保跳过不必要的载荷分析以提高效率。
+    预期结果: 1. 可能产生DLC相关告警; 2. 不应产生载荷相关告警（熵、字节行为等）
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.222573
+
+  测试 #15
+    类名: TestTamperDetector
+    方法: test_detect_tamper_attack_sequence
+    描述: 验证 TamperDetector 对篡改攻击序列的检测能力，确保能识别混合在正常流量中的篡改攻击。
+    预期结果: 1. 应检测到篡改攻击并产生告警; 2. 告警类型应包含篡改相关类型
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.223573
+
+  测试 #16
+    类名: TestTamperDetector
+    方法: test_detector_initialization
+    描述: 验证 TamperDetector 检测器的初始化过程，确保所有属性和状态正确设置。
+    预期结果: 1. 检测器类型应为'tamper'; 2. 所有异常计数器应初始化为0; 3. 基线引擎应正确关联
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.001秒
+    时间: 2025-06-08T20:47:07.224572
+
+  测试 #17
+    类名: TestTamperDetector
+    方法: test_performance_with_large_sequence
+    描述: 验证 TamperDetector 在处理大量帧序列时的性能表现，确保检测效率满足实时要求。
+    预期结果: 1. 处理时间应在10秒内完成; 2. 检测器应能稳定处理大量帧; 3. 内存使用应保持合理
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.011秒
+    时间: 2025-06-08T20:47:07.235524
+
+  测试 #18
+    类名: TestTamperDetector
+    方法: test_update_tamper_state
+    描述: 验证 TamperDetector 状态更新机制的正确性，确保检测状态信息得到正确维护。
+    预期结果: 1. 应更新最后检测时间; 2. 应更新检测计数; 3. 应更新最后载荷
+    实际结果: 测试通过
+    状态: PASS
+    耗时: 0.002秒
+    时间: 2025-06-08T20:47:07.237528
+
+
